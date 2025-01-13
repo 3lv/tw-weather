@@ -192,7 +192,7 @@ function ThunderstormOverlay() {
       <div className="absolute inset-0 bg-black bg-opacity-50 overflow-hidden">
         {/* Lightning McQueen Car */}
         <motion.img
-          src="/mcqueen.png"
+          src={`/proiect-4-html-css-js-3lv/mcqueen.png`}
           alt="Lightning McQueen"
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-vh animate-mcqueen"
           initial={{ opacity: 1, x: '100vh' }}
