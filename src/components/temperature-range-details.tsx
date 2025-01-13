@@ -1,22 +1,45 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
 
 interface TemperatureRangeDetailsProps {
   hourlyForecasts: {
-    dateTime: Date;
-    temp: string;
-  }[];
-  tempUnit: string;
+    dateTime: Date
+    temp: string
+  }[]
+  tempUnit: string
 }
 
-export function TemperatureRangeDetails({ hourlyForecasts, tempUnit }: TemperatureRangeDetailsProps) {
-  const currentDate = new Date().toDateString();
-  const todayForecasts = hourlyForecasts.filter(forecast => forecast.dateTime.toDateString() === currentDate);
+export function TemperatureRangeDetails({
+  hourlyForecasts,
+  tempUnit,
+}: TemperatureRangeDetailsProps) {
+  const currentDate = new Date().toDateString()
+  const todayForecasts = hourlyForecasts.filter(
+    (forecast) => forecast.dateTime.toDateString() === currentDate
+  )
 
-  const chartData = todayForecasts.map(forecast => ({
-    time: forecast.dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    temperature: parseFloat(forecast.temp)
-  }));
+  const chartData = todayForecasts.map((forecast) => ({
+    time: forecast.dateTime.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    }),
+    temperature: parseFloat(forecast.temp),
+  }))
 
   return (
     <div className="space-y-6">
@@ -33,5 +56,5 @@ export function TemperatureRangeDetails({ hourlyForecasts, tempUnit }: Temperatu
         </ResponsiveContainer>
       </div>
     </div>
-  );
+  )
 }

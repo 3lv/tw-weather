@@ -13,7 +13,13 @@ interface CityImageProps {
   children: React.ReactNode
 }
 
-export function CityImage({ cityName, className, weatherCode, isNight, children }: CityImageProps) {
+export function CityImage({
+  cityName,
+  className,
+  weatherCode,
+  isNight,
+  children,
+}: CityImageProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const { scrollY } = useScroll()
 
@@ -35,7 +41,7 @@ export function CityImage({ cityName, className, weatherCode, isNight, children 
   }, [cityName, weatherCode, isNight])
 
   return (
-    <div className={cn("relative w-full h-screen overflow-hidden", className)}>
+    <div className={cn('relative w-full h-screen overflow-hidden', className)}>
       <motion.div
         style={{
           scale,
@@ -56,41 +62,47 @@ export function CityImage({ cityName, className, weatherCode, isNight, children 
           <div className="w-full h-full bg-gray-300 animate-pulse" />
         )}
       </motion.div>
-      
+
       {/* Weather Overlay Animations */}
       <WeatherOverlay weatherCode={weatherCode} isNight={isNight} />
-      
+
       {children}
     </div>
   )
 }
 
-function WeatherOverlay({ weatherCode, isNight }: { weatherCode: number, isNight: boolean }) {
-const getWeatherElements = () => {
-  if (weatherCode >= 95 && weatherCode <= 99) {
-    return <ThunderstormOverlay />;
-  } else if (
-    (weatherCode >= 51 && weatherCode <= 57) || 
-    (weatherCode >= 61 && weatherCode <= 67) ||
-    (weatherCode >= 80 && weatherCode <= 82)
-  ) {
-    return <RainOverlay />;
-  } else if (
-    (weatherCode >= 71 && weatherCode <= 77) || 
-    (weatherCode >= 85 && weatherCode <= 86)
-  ) {
-    return <SnowOverlay />;
-  } else if (weatherCode === 45 || weatherCode === 48) {
-    return <FogOverlay />;
-  } else if (weatherCode === 0 || weatherCode === 800) {
-    return isNight ? <NightOverlay /> : <SunnyOverlay />;
-  } else if (weatherCode >= 1 && weatherCode <= 3) {
-    const cloudDensity = Math.pow(weatherCode, 2) * 10; // Calculate cloud density
-    return <CloudyOverlay clouds={cloudDensity} />;
-  } else {
-    return <SunnyOverlay />;
+function WeatherOverlay({
+  weatherCode,
+  isNight,
+}: {
+  weatherCode: number
+  isNight: boolean
+}) {
+  const getWeatherElements = () => {
+    if (weatherCode >= 95 && weatherCode <= 99) {
+      return <ThunderstormOverlay />
+    } else if (
+      (weatherCode >= 51 && weatherCode <= 57) ||
+      (weatherCode >= 61 && weatherCode <= 67) ||
+      (weatherCode >= 80 && weatherCode <= 82)
+    ) {
+      return <RainOverlay />
+    } else if (
+      (weatherCode >= 71 && weatherCode <= 77) ||
+      (weatherCode >= 85 && weatherCode <= 86)
+    ) {
+      return <SnowOverlay />
+    } else if (weatherCode === 45 || weatherCode === 48) {
+      return <FogOverlay />
+    } else if (weatherCode === 0 || weatherCode === 800) {
+      return isNight ? <NightOverlay /> : <SunnyOverlay />
+    } else if (weatherCode >= 1 && weatherCode <= 3) {
+      const cloudDensity = Math.pow(weatherCode, 2) * 10 // Calculate cloud density
+      return <CloudyOverlay clouds={cloudDensity} />
+    } else {
+      return <SunnyOverlay />
+    }
   }
-};
   return (
     <div className="absolute inset-0 pointer-events-none">
       {getWeatherElements()}
@@ -103,13 +115,13 @@ function ThunderstormOverlay() {
     initial: { opacity: 0, scale: 0.5 },
     animate: { opacity: 1, scale: 1.2, rotate: [0, -15, 15, 0] },
     exit: { opacity: 0, scale: 0.5 },
-  };
+  }
 
   const flyingImageVariants = {
-    initial: { opacity: 0, x: "-100vw", rotate: -45 },
+    initial: { opacity: 0, x: '-100vw', rotate: -45 },
     animate: { opacity: 1, x: 0, rotate: 0 },
-    exit: { opacity: 0, x: "100vw", rotate: 45 },
-  };
+    exit: { opacity: 0, x: '100vw', rotate: 45 },
+  }
 
   return (
     <div className="absolute inset-0 bg-black bg-opacity-50 overflow-hidden">
@@ -126,7 +138,7 @@ function ThunderstormOverlay() {
         transition={{
           duration: 0.5,
           repeat: Infinity,
-          repeatType: "reverse",
+          repeatType: 'reverse',
         }}
       >
         ⚡
@@ -140,7 +152,7 @@ function ThunderstormOverlay() {
         transition={{
           duration: 0.7,
           repeat: Infinity,
-          repeatType: "reverse",
+          repeatType: 'reverse',
         }}
       >
         ⚡
@@ -151,13 +163,13 @@ function ThunderstormOverlay() {
         src="https://toppng.com/uploads/preview/lightning-mcqueen-lightning-mcqueen-clipart-11563265704fcfsnw740b.png"
         alt="Lightning McQueen"
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 w-40"
-        initial={{ opacity: 0, x: "-100vw" }}
+        initial={{ opacity: 0, x: '-100vw' }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: "100vw" }}
+        exit={{ opacity: 0, x: '100vw' }}
         transition={{
           duration: 1,
           repeat: Infinity,
-          repeatType: "loop",
+          repeatType: 'loop',
         }}
       />
 
@@ -174,26 +186,26 @@ function ThunderstormOverlay() {
           duration: 1.5,
           delay: 0.5,
           repeat: Infinity,
-          repeatType: "loop",
+          repeatType: 'loop',
         }}
       />
-    <div className="absolute inset-0 bg-black bg-opacity-50 overflow-hidden">
-      {/* Lightning McQueen Car */}
-      <motion.img
-        src="/mcqueen.png"
-        alt="Lightning McQueen"
-        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-vh animate-mcqueen"
-        initial={{ opacity: 1, x: "100vh" }}
-        animate={{ opacity: 1, x: "-200vw" }}
-        transition={{
-          duration: 1,
-          repeat: Infinity,
-          repeatType: "loop",
-        }}
-      />
+      <div className="absolute inset-0 bg-black bg-opacity-50 overflow-hidden">
+        {/* Lightning McQueen Car */}
+        <motion.img
+          src="/mcqueen.png"
+          alt="Lightning McQueen"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-vh animate-mcqueen"
+          initial={{ opacity: 1, x: '100vh' }}
+          animate={{ opacity: 1, x: '-200vw' }}
+          transition={{
+            duration: 1,
+            repeat: Infinity,
+            repeatType: 'loop',
+          }}
+        />
+      </div>
     </div>
-    </div>
-  );
+  )
 }
 
 function RainOverlay() {
@@ -208,13 +220,13 @@ function RainOverlay() {
             top: `${Math.random() * 100}%`,
           }}
           animate={{
-            y: ["0%", "100%"],
+            y: ['0%', '100%'],
             opacity: [0.6, 0],
           }}
           transition={{
             duration: 0.8 + Math.random() * 0.5,
             repeat: Infinity,
-            ease: "linear",
+            ease: 'linear',
           }}
         />
       ))}
@@ -234,14 +246,14 @@ function SnowOverlay() {
             top: `${Math.random() * 100}%`,
           }}
           animate={{
-            y: ["0%", "100%"],
-            x: ["-10%", "10%"],
+            y: ['0%', '100%'],
+            x: ['-10%', '10%'],
             opacity: [0.6, 0],
           }}
           transition={{
             duration: 3 + Math.random() * 2,
             repeat: Infinity,
-            ease: "linear",
+            ease: 'linear',
           }}
         />
       ))}
@@ -254,7 +266,7 @@ function NightOverlay() {
     <div className="absolute inset-0 bg-blue-900 opacity-30">
       {/* Moon */}
       <div className="absolute top-10 right-10 w-16 h-16 bg-yellow-100 rounded-full opacity-80 shadow-lg" />
-      
+
       {/* Stars */}
       {[...Array(50)].map((_, i) => (
         <motion.div
@@ -271,7 +283,7 @@ function NightOverlay() {
           transition={{
             duration: 2 + Math.random() * 3,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
           }}
         />
       ))}
@@ -298,7 +310,7 @@ const CloudyOverlay = memo(({ clouds }: { clouds: number }) => {
         duration: 10 + Math.random() * 20,
       })),
     [clouds]
-  );
+  )
 
   return (
     <div className="absolute inset-0">
@@ -313,22 +325,22 @@ const CloudyOverlay = memo(({ clouds }: { clouds: number }) => {
             left: `${cloud.left}%`,
           }}
           animate={{
-            x: ["-100%", "100%"],
+            x: ['-100%', '100%'],
             opacity: [0, 0.7, 0.7, 0],
           }}
           transition={{
             duration: cloud.duration,
             repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut",
+            repeatType: 'reverse',
+            ease: 'easeInOut',
           }}
         />
       ))}
     </div>
-  );
-});
+  )
+})
 
-export default CloudyOverlay;
+export default CloudyOverlay
 
 function FogOverlay() {
   return (
@@ -338,12 +350,12 @@ function FogOverlay() {
           key={i}
           className="absolute inset-0 bg-gradient-to-b from-gray-300 to-transparent opacity-70"
           animate={{
-            y: ["0%", "100%", "0%"],
+            y: ['0%', '100%', '0%'],
           }}
           transition={{
             duration: 10 + i * 5,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
           }}
         />
       ))}

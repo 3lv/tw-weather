@@ -1,10 +1,10 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useCallback } from 'react';
-import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react'
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -12,105 +12,105 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from '@/components/ui/popover'
 
-import { searchCities, City } from '@/actions/search-cities';
+import { searchCities, City } from '@/actions/search-cities'
 
 interface CitySearchProps {
-  selectedCity: City | null;
-  onCitySelect: (city: City | null) => void;
+  selectedCity: City | null
+  onCitySelect: (city: City | null) => void
 }
 
 export function CitySearch({ selectedCity, onCitySelect }: CitySearchProps) {
-  const [open, setOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [cities, setCities] = useState<City[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
+  const [cities, setCities] = useState<City[]>([])
+  const [loading, setLoading] = useState(false)
 
   const debouncedSearch = useCallback((value: string) => {
     if (value.length < 3) {
-      setCities([]);
-      return;
+      setCities([])
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
     searchCities(value)
       .then((results) => {
-        setCities(results || []);
+        setCities(results || [])
       })
       .catch((error) => {
-        console.error('Error in searchCities:', error);
-        setCities([]);
+        console.error('Error in searchCities:', error)
+        setCities([])
       })
       .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+        setLoading(false)
+      })
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      debouncedSearch(searchValue);
-    }, 300);
+      debouncedSearch(searchValue)
+    }, 300)
 
-    return () => clearTimeout(timer);
-  }, [searchValue, debouncedSearch]);
+    return () => clearTimeout(timer)
+  }, [searchValue, debouncedSearch])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant='outline'
-          role='combobox'
+          variant="outline"
+          role="combobox"
           aria-expanded={open}
-          className='w-[400px] justify-between'
+          className="w-[400px] justify-between"
         >
           {selectedCity ? selectedCity.label : 'Select city...'}
-          <ChevronsUpDown className='opacity-50' />
+          <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px] p-0'>
-      {/* @ts-ignore */}
+      <PopoverContent className="w-[400px] p-0">
+        {/* @ts-ignore */}
         <Command>
           <CommandInput
-	  // @ts-ignore
+            // @ts-ignore
             placeholder={selectedCity ? selectedCity.label : 'Search city...'}
             value={searchValue}
             onValueChange={(newValue: string) => {
-              setSearchValue(newValue);
+              setSearchValue(newValue)
             }}
           />
           {loading && (
-            <div className='flex items-center justify-center p-4 text-sm text-muted-foreground'>
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            <div className="flex items-center justify-center p-4 text-sm text-muted-foreground">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Searching...
             </div>
           )}
-	  {/* @ts-ignore */}
+          {/* @ts-ignore */}
           <CommandList>
-	  {/* @ts-ignore */}
+            {/* @ts-ignore */}
             <CommandEmpty>No city found.</CommandEmpty>
-	  {/* @ts-ignore */}
+            {/* @ts-ignore */}
             <CommandGroup>
               {cities.map((city, index) => (
-		      /* @ts-ignore */
+                /* @ts-ignore */
                 <CommandItem
                   key={`${city.label}-${index}`}
                   value={city.label}
                   onSelect={(currentValue: string) => {
                     if (currentValue === selectedCity?.label) {
-                      onCitySelect(null);
+                      onCitySelect(null)
                     } else {
                       const city =
                         cities.find((city) => city.label == currentValue) ||
-                        null;
-                      onCitySelect(city);
+                        null
+                      onCitySelect(city)
                     }
-                    setOpen(false);
+                    setOpen(false)
                   }}
                 >
                   {city.label}
@@ -129,5 +129,5 @@ export function CitySearch({ selectedCity, onCitySelect }: CitySearchProps) {
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

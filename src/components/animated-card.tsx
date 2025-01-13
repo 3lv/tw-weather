@@ -1,14 +1,14 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Card } from '@/components/ui/card';
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { Card } from '@/components/ui/card'
 
-type Direction = 'left' | 'right' | 'bottom';
+type Direction = 'left' | 'right' | 'bottom'
 
 export interface AnimatedCardProps {
-  children: React.ReactNode;
-  direction: Direction;
-  className?: string;
-  amount?: number,
+  children: React.ReactNode
+  direction: Direction
+  className?: string
+  amount?: number
 }
 
 export const AnimatedCard = ({
@@ -17,8 +17,8 @@ export const AnimatedCard = ({
   className,
   amount,
 }: AnimatedCardProps) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: amount || 0.4 });
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: false, amount: amount || 0.4 })
   const directionMap = {
     left: {
       start: { opacity: 0, x: -50 },
@@ -32,9 +32,9 @@ export const AnimatedCard = ({
       start: { opacity: 0, y: 50 },
       end: { opacity: 1, y: 0 },
     },
-  };
-  const start = directionMap[direction].start;
-  const end = directionMap[direction].end;
+  }
+  const start = directionMap[direction].start
+  const end = directionMap[direction].end
   return (
     <motion.div
       ref={ref}
@@ -45,7 +45,7 @@ export const AnimatedCard = ({
       whileTap={{ scale: 0.98 }}
       className={className}
     >
-      <Card className='overflow-hidden'>{children}</Card>
+      <Card className="overflow-hidden">{children}</Card>
     </motion.div>
-  );
+  )
 }

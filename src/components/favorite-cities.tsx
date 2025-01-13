@@ -1,13 +1,16 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { City } from '@/actions/search-cities'
 
 interface FavoriteCitiesProps {
-  favoriteCities: City[];
-  handleCitySelect: (city: City) => void;
+  favoriteCities: City[]
+  handleCitySelect: (city: City) => void
 }
 
-export function FavoriteCities({ favoriteCities, handleCitySelect }: FavoriteCitiesProps) {
+export function FavoriteCities({
+  favoriteCities,
+  handleCitySelect,
+}: FavoriteCitiesProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -41,4 +44,3 @@ export function FavoriteCities({ favoriteCities, handleCitySelect }: FavoriteCit
     </div>
   )
 }
-
