@@ -6,13 +6,15 @@ export const AnimatedCard = ({
   children,
   direction,
   className,
+  amount,
 }: {
   children: React.ReactNode;
   direction: Direction;
   className?: string;
+  amount?: number,
 }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.5 });
+  const isInView = useInView(ref, { once: false, amount: amount || 0.4 });
   const directionMap = {
     left: {
       start: { opacity: 0, x: -50 },

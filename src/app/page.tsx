@@ -196,7 +196,7 @@ export default function WeatherDashboard() {
         </CityImage>
       </motion.div>
       <div className='flex flex-col p-6'>
-        <div className='grid grid-cols-12 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-12 gap-6'>
           <div className='col-span-8'>
             <AnimatedCard direction='left' className='mt-6'>
               <CardContent className='p-4'>
@@ -216,7 +216,7 @@ export default function WeatherDashboard() {
                 />
               </CardContent>
             </AnimatedCard>
-            <AnimatedCard direction='left' className='mt-6'>
+            <AnimatedCard amount={0.2} direction='left' className='mt-6'>
               <CardContent className='p-4'>
                 <h3 className='mb-2 text-lg font-semibold'>7-Day Forecast</h3>
                 <Accordion type='single' collapsible className='w-full'>
