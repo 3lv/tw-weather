@@ -92,8 +92,13 @@ export default function WeatherDashboard() {
     }
     loadWeatherData()
   }, [selectedCity])
-  const handleCitySelect = (city: City) => {
-    setSelectedCity(city)
+  const handleCitySelect = (city: City | null) => {
+    if (city === null) {
+      //May want to do something else
+      setSelectedCity(DEFAULT_CITY)
+    } else {
+      setSelectedCity(city)
+    }
   }
   const convertTemperature = (temp: number): string => {
     let result = tempUnit === '°F' ? (temp * 9) / 5 + 32 : temp

@@ -1,5 +1,9 @@
 import { client } from '@/lib/pexels'
-export async function fetchCityImage(cityName, weather, isNight) {
+export async function fetchCityImage(
+  cityName: string,
+  weather: string,
+  isNight?: string
+) {
   let query = ''
     .concat(cityName, ' buildings ')
     .concat(weather, ' ')

@@ -13,6 +13,38 @@ interface CityImageProps {
   children: React.ReactNode
 }
 
+// There are some alterations to the actual weather and the used string, for better image results
+const weatherCodeToString: Record<number, string> = {
+  0: "clear sky", // Clear sky
+  1: "clear sky", // Mainly clear
+  2: "cloudy", // Partly cloudy
+  3: "cloudy", // Cloudy
+  45: "foggy", // Fog
+  48: "foggy", // Freezing fog
+  51: "cloudy", // Light drizzle (Intentionally used cloudy for better results)
+  53: "raining", // Moderate drizzle
+  55: "raining", // Heavy drizzle
+  56: "raining", // Freezing drizzle
+  57: "raining", // Heavy freezing drizzle
+  61: "raining", // Light rain
+  63: 'raining', // Moderate rain
+  65: 'raining', // Heavy rain
+  66: 'raining', // Freezing rain
+  67: 'raining', // Heavy freezing rain
+  71: 'snowy', // Light snow
+  73: 'snowing', // Moderate snow
+  75: 'snowing', // Heavy snow
+  77: 'snowing', // Snow grains
+  80: 'cloudy', // Light shower rain
+  81: 'raining', // Moderate shower rain
+  82: 'raining', // Heavy shower rain
+  85: 'snowing', // Light snow showers
+  86: 'snowing', // Heavy snow showers
+  95: 'raining', // Thunderstorm
+  96: 'strong rain', // Thunderstorm with hail
+  99: 'thunderstorm', // Severe thunderstorm with hail
+}
+
 export function CityImage({
   cityName,
   className,
@@ -30,7 +62,7 @@ export function CityImage({
   useEffect(() => {
     async function loadCityImage() {
       try {
-        const url = await fetchCityImage(cityName, weatherCode, isNight)
+        const url = await fetchCityImage(cityName, weatherCodeToString[weatherCode], isNight)
         setImageUrl(url)
       } catch (error) {
         console.error('Failed to load city image:', error)
@@ -339,7 +371,7 @@ const CloudyOverlay = memo(({ clouds }: { clouds: number }) => {
     </div>
   )
 })
-CloudyOverlay.displayName = "CloudyOverlay";
+CloudyOverlay.displayName = 'CloudyOverlay'
 
 export default CloudyOverlay
 

@@ -16,7 +16,10 @@ const eslintConfig = [
       // Disable react/no-unescaped-entities
       'react/no-unescaped-entities': 'off',
       // Allow unused variables that start with an underscore
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
 ]
