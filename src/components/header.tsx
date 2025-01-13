@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Settings, Bell, Search } from 'lucide-react'
+import { Settings, Bell } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 interface HeaderProps {
-  selectedCity: City | null
+  selectedCity: City
   onCitySelect: (city: City | null) => void
   tempUnit: '°C' | '°F'
   setTempUnit: (unit: '°C' | '°F') => void
@@ -56,7 +56,6 @@ export function Header({
       left: "32px", 
       right: "32px",
       top: "16px",
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
     }
   }
   const opacity = useTransform(scrollY, [0, 100], [1, 0.98])
@@ -83,13 +82,13 @@ export function Header({
           {/* Logo Section */}
           <div className="flex flex-none items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2 text-2xl text-primary">
-</div>
+	    🌐
+	    </div>
             {!isScrolled && <span className="text-lg font-semibold tracking-tight">Weather</span>}
           </div>
           {/* Centered Search Section with enhanced styling */}
           <div className={`${isScrolled ? 'absolute left-1/2 w-full max-w-md -translate-x-1/2 transform' : 'absolute left-1/2 w-full max-w-md -translate-x-1/2 transform'} px-4`}>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
               <CitySearch selectedCity={selectedCity} onCitySelect={onCitySelect} />
             </div>
           </div>

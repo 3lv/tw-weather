@@ -20,12 +20,13 @@ import {
 import { searchCities } from "@/actions/search-cities"
 
 interface CitySearchProps {
+	selectedCity: City
   onCitySelect?: (city: City) => void
 }
 
-export function CitySearch({ onCitySelect }: CitySearchProps) {
+export function CitySearch({selectedCity, onCitySelect}: CitySearchProps) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState('')
   const [cities, setCities] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState(false)
 
@@ -73,19 +74,17 @@ export function CitySearch({ onCitySelect }: CitySearchProps) {
           aria-expanded={open}
           className="w-[300px] justify-between"
         >
-          {value
-            ? cities.find((city) => city.label === value)?.label
-            : "Search city..."}
+          {selectedCity ? selectedCity.label : "Search city..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0">
         <Command>
           <CommandInput
-            placeholder="Search city..."
+            placeholder={"Search city..."}
             className="h-9"
             value={value}
-            onValueChange={(newValue) => {
+            onValueChange={(newValue: string) => {
               console.log("Input value changed:", newValue)
               setValue(newValue)
             }}
@@ -100,12 +99,12 @@ export function CitySearch({ onCitySelect }: CitySearchProps) {
           <CommandGroup>
             {cities.map((city) => (
               <CommandItem
-                key={city.value}
-                value={city.value}
-                onSelect={(currentValue) => {
-                  console.log("City selected:", currentValue)
-                  setValue(currentValue)
-                  onCitySelect?.(currentValue)
+                key={city.label}
+                value={city.label}
+                onSelect={(selectedCity: City) => {
+                  console.log("City selected:", selectedCity)
+                  setValue(selectedCity.name)
+                  onCitySelect?.(selectedCity)
                   setOpen(false)
                 }}
               >
@@ -113,7 +112,7 @@ export function CitySearch({ onCitySelect }: CitySearchProps) {
                 <Check
                   className={cn(
                     "ml-auto h-4 w-4",
-                    value === city.value ? "opacity-100" : "opacity-0"
+                    value === city.label ? "opacity-100" : "opacity-0"
                   )}
                 />
               </CommandItem>

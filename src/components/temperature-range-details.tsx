@@ -32,22 +32,6 @@ export function TemperatureRangeDetails({ hourlyForecasts, tempUnit }: Temperatu
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Time</TableHead>
-            <TableHead>Temperature ({tempUnit})</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {todayForecasts.map((forecast, index) => (
-            <TableRow key={index}>
-              <TableCell>{forecast.dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</TableCell>
-              <TableCell>{forecast.temp}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
     </div>
   );
 }

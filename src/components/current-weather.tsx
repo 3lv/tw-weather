@@ -97,13 +97,12 @@ export function CurrentWeather({
         })}
       </motion.div>
       <motion.div
-        variants={itemVariants}
+        whileHover={{ scale: 1.05}}
+        whileTap={{ scale: 0.95 }}
       >
         <Button 
           className="bg-white/20 text-white hover:bg-white/30 rounded-full px-6 py-2 text-lg backdrop-blur-sm transition-all duration-300"
           onClick={() => toggleFavorite(selectedCity)}
-          whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.3)" }}
-          whileTap={{ scale: 0.95 }}
         >
           {isFavorite(selectedCity) ? 'Remove from Favorites' : 'Add to Favorites'}
         </Button>

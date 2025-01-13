@@ -13,7 +13,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/components/ui/drawer';
 import {
   motion,
@@ -21,7 +20,6 @@ import {
   useTransform,
   useSpring,
 } from 'framer-motion';
-import { TemperatureRangeChart } from '@/components/temperature-range-chart';
 import { WeatherIcon } from '@/components/weather-icon';
 import { HourlyForecast, SunsetForecast, SunriseForecast, NowForecast, DateTZ } from '@/components/hourly-forecast';
 import { TemperatureRange } from '@/components/temperature-range';
@@ -93,8 +91,8 @@ export default function WeatherDashboard() {
     }
     loadWeatherData();
   }, [selectedCity]);
-  const handleCitySelect = (city: City | null) => {
-    setSelectedCity(city || DEFAULT_CITY);
+  const handleCitySelect = (city: City) => {
+    setSelectedCity(city);
   };
   const convertTemperature = (temp: number): string => {
     let result = tempUnit === '°F' ? (temp * 9) / 5 + 32 : temp;
@@ -204,7 +202,8 @@ export default function WeatherDashboard() {
               <CardContent className='p-4'>
                 <div className='mt-4 flex items-center gap-2'>
                   <div className='text-6xl'>
-</div>
+			  🌡️
+		  </div>
                   <div>
                     <div className='text-2xl'>Hourly Forecast</div>
                   </div>

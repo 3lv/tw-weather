@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { fetchCityImage } from '@/actions/city-image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, memo } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
@@ -66,22 +66,31 @@ export function CityImage({ cityName, className, weatherCode, isNight, children 
 }
 
 function WeatherOverlay({ weatherCode, isNight }: { weatherCode: number, isNight: boolean }) {
-  const getWeatherElements = () => {
-    if (weatherCode >= 200 && weatherCode < 300) {
-      return <ThunderstormOverlay />
-    } else if (weatherCode >= 300 && weatherCode < 600) {
-      return <RainOverlay />
-    } else if (weatherCode >= 600 && weatherCode < 700) {
-      return <SnowOverlay />
-    } else if (weatherCode >= 700 && weatherCode < 800) {
-      return <FogOverlay />
-    } else if (weatherCode === 800) {
-      return isNight ? <NightOverlay /> : <SunnyOverlay />
-    } else {
-      return <CloudyOverlay />
-    }
+const getWeatherElements = () => {
+  if (weatherCode >= 95 && weatherCode <= 99) {
+    return <ThunderstormOverlay />;
+  } else if (
+    (weatherCode >= 51 && weatherCode <= 57) || 
+    (weatherCode >= 61 && weatherCode <= 67) ||
+    (weatherCode >= 80 && weatherCode <= 82)
+  ) {
+    return <RainOverlay />;
+  } else if (
+    (weatherCode >= 71 && weatherCode <= 77) || 
+    (weatherCode >= 85 && weatherCode <= 86)
+  ) {
+    return <SnowOverlay />;
+  } else if (weatherCode === 45 || weatherCode === 48) {
+    return <FogOverlay />;
+  } else if (weatherCode === 0 || weatherCode === 800) {
+    return isNight ? <NightOverlay /> : <SunnyOverlay />;
+  } else if (weatherCode >= 1 && weatherCode <= 3) {
+    const cloudDensity = Math.pow(weatherCode, 2) * 10; // Calculate cloud density
+    return <CloudyOverlay clouds={cloudDensity} />;
+  } else {
+    return <SunnyOverlay />;
   }
-
+};
   return (
     <div className="absolute inset-0 pointer-events-none">
       {getWeatherElements()}
@@ -278,31 +287,48 @@ function SunnyOverlay() {
   )
 }
 
-function CloudyOverlay() {
+const CloudyOverlay = memo(({ clouds }: { clouds: number }) => {
+  const cloudProperties = useMemo(
+    () =>
+      Array.from({ length: clouds }).map(() => ({
+        width: 100 + Math.random() * 100,
+        height: 50 + Math.random() * 50,
+        top: Math.random() * 20 - 3,
+        left: Math.random() * 100,
+        duration: 10 + Math.random() * 20,
+      })),
+    [clouds]
+  );
+
   return (
     <div className="absolute inset-0">
-      {[...Array(5)].map((_, i) => (
+      {cloudProperties.map((cloud, i) => (
         <motion.div
           key={i}
           className="absolute bg-white opacity-60 rounded-full"
           style={{
-            width: `${100 + Math.random() * 100}px`,
-            height: `${50 + Math.random() * 50}px`,
-            top: `${Math.random() * 100}%`,
+            width: `${cloud.width}px`,
+            height: `${cloud.height}px`,
+            top: `${cloud.top}%`,
+            left: `${cloud.left}%`,
           }}
           animate={{
             x: ["-100%", "100%"],
+            opacity: [0, 0.7, 0.7, 0],
           }}
           transition={{
-            duration: 20 + Math.random() * 10,
+            duration: cloud.duration,
             repeat: Infinity,
-            ease: "linear",
+            repeatType: "reverse",
+            ease: "easeInOut",
           }}
         />
       ))}
     </div>
-  )
-}
+  );
+});
+
+export default CloudyOverlay;
 
 function FogOverlay() {
   return (
