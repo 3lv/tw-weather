@@ -1,5 +1,10 @@
 import { cn } from '@/lib/utils';
-const weatherCodeToEmoji = {
+interface DayNight {
+	day: string,
+	night: string,
+}
+type Entry = DayNight | string;
+const weatherCodeToEmoji: Record<number, Entry> = {
     0: {
         day: '☀️',
         night: '🌙'
@@ -41,8 +46,13 @@ const weatherCodeToEmoji = {
     96: '⚡',
     99: '⚡'
 };
-export const WeatherIcon = (param)=>{
-    let { weatherCode, className, isNight } = param;
+
+interface WeatherIconProps {
+	weatherCode: number,
+	className?: string,
+	isNight?: boolean,
+}
+export const WeatherIcon = ({weatherCode, className, isNight}: WeatherIconProps) => {
     // Look up the emoji based on the weather code
     const emojiEntry = weatherCodeToEmoji[weatherCode] || '🌥️'; // Default to a cloud emoji if not found
     let emoji;
@@ -51,8 +61,9 @@ export const WeatherIcon = (param)=>{
     } else {
         emoji = isNight === true ? emojiEntry.night : emojiEntry.day;
     }
-    return /*#__PURE__*/ _jsx("div", {
-        className: cn('', className),
-        children: emoji
-    });
+    return (
+	    <div className={cn("", className)}>
+		    {emoji}
+	    </div>
+    )
 };

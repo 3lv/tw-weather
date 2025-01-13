@@ -20,11 +20,10 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  useInView,
 } from 'framer-motion';
 import { TemperatureRangeChart } from '@/components/temperature-range-chart';
 import { WeatherIcon } from '@/components/weather-icon';
-import { HourlyForecast, DateTZ } from '@/components/hourly-forecast';
+import { HourlyForecast, SunsetForecast, SunriseForecast, NowForecast, DateTZ } from '@/components/hourly-forecast';
 import { TemperatureRange } from '@/components/temperature-range';
 import { CityImage } from '@/components/city-image';
 import { City } from '@/actions/search-cities';
@@ -39,15 +38,13 @@ const DEFAULT_CITY = {
   lng: 26.1025,
   name: 'Bucharest',
   label: 'Bucharest, RO',
+}
 export default function WeatherDashboard() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<City>(DEFAULT_CITY);
-  const [tempUnit, setTempUnit] = useState<'
-C' | '
-F'>('
-C');
+  const [tempUnit, setTempUnit] = useState<'°C' | '°F'>('°C');
   const [tempPrecision, setTempPrecision] = useState(0);
   const [favoriteCities, setFavoriteCities] = useState<City[]>([]);
   const [isTemperatureDrawerOpen, setIsTemperatureDrawerOpen] = useState(false);
@@ -100,8 +97,7 @@ C');
     setSelectedCity(city || DEFAULT_CITY);
   };
   const convertTemperature = (temp: number): string => {
-    let result = tempUnit === '
-F' ? (temp * 9) / 5 + 32 : temp;
+    let result = tempUnit === '°F' ? (temp * 9) / 5 + 32 : temp;
     result = Number(result.toFixed(tempPrecision));
     return result.toString();
   };
@@ -111,14 +107,17 @@ F' ? (temp * 9) / 5 + 32 : temp;
         Loading weather data...
       </div>
     );
+  }
   if (error) {
     return (
       <div className='flex h-screen items-center justify-center text-red-500'>
         {error}
       </div>
     );
+  }
   if (!weatherData) {
     return null;
+  }
   const isNight = (time: string | Date): boolean => {
     let dateTime = DateTZ(time);
     for (let i = 0; i < weatherData.daily.sunrise.length; ++i) {
@@ -132,7 +131,6 @@ F' ? (temp * 9) / 5 + 32 : temp;
   };
   const totalTempMin = Math.min(...weatherData.daily.temperature_2m_min);
   const totalTempMax = Math.max(...weatherData.daily.temperature_2m_max);
-  const utcOffsetSeconds = weatherData.utc_offset_seconds;
   const currentDateTime = DateTZ(weatherData.current.time);
   const currentTemp = weatherData.current.temperature_2m;
   const currentHumidity = weatherData.current.relative_humidity_2m;
@@ -145,16 +143,16 @@ F' ? (temp * 9) / 5 + 32 : temp;
     windSpeed: weatherData.hourly.wind_speed_10m[index],
     weatherCode: weatherData.hourly.weather_code[index],
     type: '',
-  }));
+  } as HourlyForecast));
   const sunriseSunsetEntries = weatherData.daily.time.flatMap((_, i) => [
     {
       dateTime: DateTZ(weatherData.daily.sunrise[i]),
       type: 'sunrise',
-    },
+    } as SunriseForecast,
     {
       dateTime: DateTZ(weatherData.daily.sunset[i]),
       type: 'sunset',
-    },
+    } as SunsetForecast,
   ]);
   const enhancedHourlyForecasts = [
     {
@@ -164,7 +162,7 @@ F' ? (temp * 9) / 5 + 32 : temp;
       windSpeed: currentWindSpeed,
       weatherCode: currentWeatherCode,
       type: 'now',
-    },
+    } as NowForecast,
     ...hourlyForecasts,
     ...sunriseSunsetEntries,
   ].sort((a, b) => a.dateTime.getTime() - b.dateTime.getTime());
@@ -317,3 +315,4 @@ F' ? (temp * 9) / 5 + 32 : temp;
       </Drawer>
     </div>
   );
+  }

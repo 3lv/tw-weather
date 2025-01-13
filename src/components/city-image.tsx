@@ -3,14 +3,17 @@ import { fetchCityImage } from '@/actions/city-image'
 import { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
+import { cn } from '@/lib/utils'
+
 interface CityImageProps {
   cityName: string
+  className?: string
   weatherCode: number
   isNight: boolean
   children: React.ReactNode
 }
 
-export function CityImage({ cityName, weatherCode, isNight, children }: CityImageProps) {
+export function CityImage({ cityName, className, weatherCode, isNight, children }: CityImageProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const { scrollY } = useScroll()
 
@@ -32,12 +35,12 @@ export function CityImage({ cityName, weatherCode, isNight, children }: CityImag
   }, [cityName, weatherCode, isNight])
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className={cn("relative w-full h-screen overflow-hidden", className)}>
       <motion.div
         style={{
           scale,
           opacity,
-          filter: blur.as(value => `blur(${value}px)`),
+          filter: `blur(${blur.get()}px)`,
         }}
         className="absolute inset-0"
       >

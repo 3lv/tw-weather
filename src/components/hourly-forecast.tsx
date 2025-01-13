@@ -4,7 +4,7 @@ import { WeatherIcon } from '@/components/weather-icon';
 
 export interface HourlyForecast {
   dateTime: Date;
-  temp: number;
+  temp: string;
   weatherCode: number;
   type: '';
 }
@@ -21,7 +21,7 @@ export interface SunsetForecast {
 
 export interface NowForecast {
   dateTime: Date;
-  temp: number;
+  temp: string;
   weatherCode: number;
   type: 'now';
 }

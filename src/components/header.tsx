@@ -26,13 +26,11 @@ import {
 interface HeaderProps {
   selectedCity: City | null
   onCitySelect: (city: City | null) => void
-  tempUnit: '
-C' | '
-  setTempUnit: (unit: '
-C' | '
-F') => void
+  tempUnit: '°C' | '°F'
+  setTempUnit: (unit: '°C' | '°F') => void
   tempPrecision: number
   setTempPrecision: (precision: number) => void
+}
 export function Header({
   selectedCity,
   onCitySelect,
@@ -60,6 +58,7 @@ export function Header({
       top: "16px",
       boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
     }
+  }
   const opacity = useTransform(scrollY, [0, 100], [1, 0.98])
   const scale = useTransform(scrollY, [0, 100], [1, 0.98])
   useEffect(() => {
@@ -120,10 +119,9 @@ export function Header({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Switch
-                        checked={tempUnit === '
+                        checked={tempUnit === '°F'}
                         onCheckedChange={(checked) =>
-                          setTempUnit(checked ? '
-F' : '
+                          setTempUnit(checked ? '°F' : '°C')
                         }
                       />
                       <span>Temperature Unit</span>
@@ -171,3 +169,5 @@ F' : '
         </div>
       </motion.div>
     </motion.header>
+  );
+}

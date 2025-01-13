@@ -4,6 +4,7 @@ import * as React from "react"
 import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { City } from '@/actions/search-cities'
 import {
   Command,
   CommandEmpty,
@@ -19,13 +20,13 @@ import {
 import { searchCities } from "@/actions/search-cities"
 
 interface CitySearchProps {
-  onCitySelect?: (city: string) => void
+  onCitySelect?: (city: City) => void
 }
 
 export function CitySearch({ onCitySelect }: CitySearchProps) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
-  const [cities, setCities] = React.useState<{ value: string; label: string }[]>([])
+  const [cities, setCities] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState(false)
 
   const debouncedSearch = React.useCallback(
@@ -73,7 +74,7 @@ export function CitySearch({ onCitySelect }: CitySearchProps) {
           className="w-[300px] justify-between"
         >
           {value
-            ? cities.find((city) => city.value === value)?.label
+            ? cities.find((city) => city.label === value)?.label
             : "Search city..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
