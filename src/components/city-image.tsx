@@ -339,6 +339,7 @@ const CloudyOverlay = memo(({ clouds }: { clouds: number }) => {
     </div>
   )
 })
+CloudyOverlay.displayName = "CloudyOverlay";
 
 export default CloudyOverlay
 

@@ -118,10 +118,10 @@ export default function WeatherDashboard() {
     return null
   }
   const isNight = (time: string | Date): boolean => {
-    let dateTime = DateTZ(time)
+    const dateTime = DateTZ(time)
     for (let i = 0; i < weatherData.daily.sunrise.length; ++i) {
-      let sunrise = DateTZ(weatherData.daily.sunrise[i])
-      let sunset = DateTZ(weatherData.daily.sunset[i])
+      const sunrise = DateTZ(weatherData.daily.sunrise[i])
+      const sunset = DateTZ(weatherData.daily.sunset[i])
       if (sunrise <= dateTime && dateTime <= sunset) {
         return false
       }

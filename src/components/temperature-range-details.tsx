@@ -1,12 +1,4 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
   LineChart,
   Line,
   XAxis,
@@ -26,7 +18,6 @@ interface TemperatureRangeDetailsProps {
 
 export function TemperatureRangeDetails({
   hourlyForecasts,
-  tempUnit,
 }: TemperatureRangeDetailsProps) {
   const currentDate = new Date().toDateString()
   const todayForecasts = hourlyForecasts.filter(

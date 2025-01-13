@@ -5,11 +5,9 @@ import {
   LineChart,
   XAxis,
   YAxis,
-  Tooltip,
   Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { Card, CardContent } from '@/components/ui/card'
 import {
   ChartContainer,
   ChartTooltip,

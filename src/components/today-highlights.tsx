@@ -2,7 +2,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Wind, Droplets } from 'lucide-react'
 import { WeatherData } from '@/actions/weather-data'
 import { Button } from '@/components/ui/button'
-import { motion } from 'framer-motion'
 import { CardBody, CardContainer, CardItem } from '@/components/ui/3d-card'
 
 interface TodayHighlightsProps {
@@ -19,6 +18,7 @@ export function TodayHighlights({
   const currentWindSpeed = weatherData.current.wind_speed_10m
   const currentTemp = weatherData.current.temperature_2m
 
+  /*
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,6 +42,7 @@ export function TodayHighlights({
       },
     },
   }
+  */
 
   return (
     <CardContainer className="mb-6 w-full">

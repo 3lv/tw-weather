@@ -3,8 +3,8 @@ interface DayNight {
   day: string
   night: string
 }
-type Entry = DayNight | string
-const weatherCodeToEmoji: Record<number, string | DayNight> = {
+type EmojiEntry = DayNight | string
+const weatherCodeToEmoji: Record<number, EmojiEntry> = {
   0: { day: '☀️', night: '🌙' }, // Clear sky
   1: { day: '🌤️', night: '🌙' }, // Mainly clear
   2: { day: '⛅', night: '☁️' }, // Partly cloudy
